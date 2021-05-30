@@ -37,7 +37,7 @@ class User {
   }
 
   /**
-   * 
+   * Create an object for a response without user's password
    * @param {IUserInfo} user - an object with full information about a user
    * @return {IUserInfoToResponse} - an object with information about a user without password
    */
