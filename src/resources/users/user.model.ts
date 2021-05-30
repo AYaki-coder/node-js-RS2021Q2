@@ -1,4 +1,5 @@
-const {v4:uuid} = require('uuid');
+import {v4 as uuid} from 'uuid';
+import {IUserInfo} from './user';
 
 /**
  * The Interface describing information about a user
@@ -18,8 +19,11 @@ const {v4:uuid} = require('uuid');
  */
 
 /** Class representing a user */
-class User {
-
+export default class User {
+  readonly id: string;
+  readonly name: string;
+  readonly login: string;
+  readonly password: string;
   /** 
    * Create a user model
    * @param { IUserInfo } - an object with information about a user
@@ -29,7 +33,7 @@ class User {
     name = 'USER',
     login = 'user',
     password = 'P@55w0rd'
-  } = {}) {
+  } : IUserInfo) {
     this.id = id;
     this.name = name;
     this.login = login;
@@ -41,10 +45,8 @@ class User {
    * @param {IUserInfo} user - an object with full information about a user
    * @return {IUserInfoToResponse} - an object with information about a user without password
    */
-  static toResponse(user) {
+  static toResponse(user: IUserInfo) : Omit<IUserInfo , 'password'>{
     const { id, name, login } = user;
     return { id, name, login };
   }
 }
-
-module.exports = User;

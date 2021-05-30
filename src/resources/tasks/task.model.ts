@@ -1,4 +1,5 @@
-const {v4:uuid} = require('uuid');
+import {v4 as uuid} from 'uuid';
+import {ITaskInfo} from './task';
 
 /**
  * The Interface describing information about a board
@@ -14,6 +15,13 @@ const {v4:uuid} = require('uuid');
 
  /** Class representing a task */
 class Task {
+  readonly id: string;
+  readonly title: string;
+  readonly order: number;
+  readonly description: string;
+  readonly userId: string | null;
+  readonly boardId: string;
+  readonly columnId: string | null;
    /** 
    * Create a task model
    * @param { ITaskInfo } - an object with information about a task
@@ -26,7 +34,7 @@ class Task {
     userId = null,
     boardId = 'string',
     columnId = null
-  } = {}) {
+  } : ITaskInfo) {
     this.id = id;
     this.title = title;
     this.order = order;
@@ -41,7 +49,7 @@ class Task {
    * @param { ITaskInfo } board - an object with information about a task
    * @return { ITaskInfo } - an object with information about a task
    */
-  static toResponse(task) {
+  static toResponse(task : ITaskInfo): ITaskInfo{
     const { id, title, order, description, userId, boardId, columnId } = task;
     return { id, title, order, description, userId, boardId, columnId };
   }

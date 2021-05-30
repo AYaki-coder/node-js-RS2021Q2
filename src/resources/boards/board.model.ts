@@ -1,4 +1,5 @@
-const {v4:uuid} = require('uuid');
+import {v4 as uuid} from 'uuid';
+import {IBoardInfo, IColumnInfo} from './board';
 
 /**
  * The Interface describing information about a board
@@ -18,6 +19,9 @@ const {v4:uuid} = require('uuid');
 
  /** Class representing a board */
 class Board {
+  readonly id: string;
+  readonly title: string;
+  readonly columns: IColumnInfo[];
   /** 
    * Create a board model
    * @param { IBoardInfo } - an object with information about a board
@@ -32,7 +36,7 @@ class Board {
         order: 0
       }
     ]
-  } = {}) {
+  } : IBoardInfo) {
     this.id = id;
     this.title = title;
     this.columns = columns;
@@ -43,7 +47,7 @@ class Board {
    * @param { IBoardInfo } board - an object with information about a board
    * @return { IBoardInfo } - an object with information about a board
    */
-  static toResponse(board) {
+  static toResponse(board : IBoardInfo) : IBoardInfo {
     const { id, title, columns } = board;
     return { id, title, columns };
   }
