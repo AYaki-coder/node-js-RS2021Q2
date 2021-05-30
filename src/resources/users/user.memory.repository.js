@@ -59,7 +59,7 @@ const update = async (id, data) => {
  * Removes a user from the data base. User's boards and tasks became unassigned
  * @async
  * @param {string} id - id of a user
- * @return {Promise<IUserInfo>} - Promise object with full information about a user or throws an error if the user was not found
+ * @return {Promise<Array<IUserInfo>>} - Promise array with an object with full information about the deleted user or throws an error if the user was not found
  */
 const remove = async id => {
   const user = await DB.removeUser(id);

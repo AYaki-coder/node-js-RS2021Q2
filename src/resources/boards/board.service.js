@@ -13,7 +13,7 @@ const boardsRepo = require('./board.memory.repository');
  * @typedef {Object} IColumnInfo
  * @property {string} id - id of a column
  * @property {string} title - title of a column
- * @property {string} order - order of a column
+ * @property {number} order - order of a column
  */
 
  /**
@@ -31,7 +31,7 @@ const get = id => boardsRepo.get(id);
 
 /**
  * Records a new board into the data base
- * @param { IBoardInfo } - an object with information about a board
+ * @param { IBoardInfo } board - an object with information about a board
  * @return {Promise<IBoardInfo>} - Promise object with information about a board
  */
 const create = board => boardsRepo.create(board);
@@ -39,7 +39,7 @@ const create = board => boardsRepo.create(board);
 /**
  * Removes a board from the data base
  * @param {string} id - id of a board
- * @return {Promise<IBoardInfo>} - Promise object with information about a board or throws an error if a board was not found
+ * @return {Promise<Array<IBoardInfo>>} - Promise array with an object with information about the deleted board or throws an error if a board was not found
  */
 const remove = id => boardsRepo.remove(id);
 

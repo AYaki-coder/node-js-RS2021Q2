@@ -27,7 +27,7 @@ const get = id => tasksRepo.get(id);
 
 /**
  * Records a new task into the data base
- * @param { ITaskInfo } - an object with information about a task
+ * @param { ITaskInfo } task - an object with information about a task
  * @return {Promise<ITaskInfo>} - Promise object with information about a task
  */
 const create = task => tasksRepo.create(task);
@@ -35,7 +35,7 @@ const create = task => tasksRepo.create(task);
 /**
  * Removes a task from the data base 
  * @param {string} id - id of a task
- * @return {Promise<IBoardInfo>} - Promise object with information about a task or throws an error if a task was not found
+ * @return {Promise<Array<ITaskInfo>>} - Promise array with an object with information about the deleted task or throws an error if a task was not found
  */
 const remove = id => tasksRepo.remove(id);
 

@@ -39,7 +39,7 @@ const get = async id => {
 /**
  * Records a new task into the data base
  * @async
- * @param { ITaskInfo } - an object with information about a task
+ * @param { ITaskInfo } task - an object with information about a task
  * @return {Promise<ITaskInfo>} - Promise object with information about a task
  */
 const create = async task => DB.createTask(task);
@@ -63,7 +63,7 @@ const update = async (id, data) => {
  * Removes a task from the data base 
  * @async
  * @param {string} id - id of a task
- * @return {Promise<IBoardInfo>} - Promise object with information about a task or throws an error if a task was not found
+ * @return {Promise<Array<ITaskInfo>>} - Promise array with an object with information about the deleted task or throws an error if a task was not found
  */
 const remove = async id => {
   const task = await DB.removeTask(id);

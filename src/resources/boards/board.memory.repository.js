@@ -13,7 +13,7 @@ const DB = require('../../common/inMemoryDB');
  * @typedef {Object} IColumnInfo
  * @property {string} id - id of a column
  * @property {string} title - title of a column
- * @property {string} order - order of a column
+ * @property {number} order - order of a column
  */
 
  /**
@@ -42,7 +42,7 @@ const get = async id => {
 /**
  * Records a new board into the data base
  * @async
- * @param { IBoardInfo } - an object with information about a board
+ * @param { IBoardInfo } board - an object with information about a board
  * @return {Promise<IBoardInfo>} - Promise object with information about a board
  */
 const create = async board => DB.createBoard(board);
@@ -66,7 +66,7 @@ const update = async (id, data) => {
  * Removes a board and its tasks from the data base
  * @async
  * @param {string} id - id of a board
- * @return {Promise<IBoardInfo>} - Promise object with information about a board or throws an error if a board was not found
+ * @return {Promise<ArrayIBoardInfo>} - Promise array with an object with information about the deleted board or throws an error if a board was not found
  */
 const remove = async id => {
   const board = await DB.removeBoard(id);

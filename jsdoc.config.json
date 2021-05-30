@@ -1,0 +1,19 @@
+{
+  "recurseDepth": 10,
+  "source": {
+    "includePattern": ".+\\.js(doc|x)?$",
+    "include": [
+      "src"
+    ],
+    "exclude": [
+      "node_modules",
+      "doc",
+      "docs",
+      "test"
+    ]
+  },
+  "opts": {
+    "recurse": true,
+    "destination": "./docs/"
+  }
+}

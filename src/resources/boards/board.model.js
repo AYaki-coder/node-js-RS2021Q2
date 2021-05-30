@@ -13,7 +13,7 @@ const {v4:uuid} = require('uuid');
  * @typedef {Object} IColumnInfo
  * @property {string} id - id of a column
  * @property {string} title - title of a column
- * @property {string} order - order of a column
+ * @property {number} order - order of a column
  */
 
  /** Class representing a board */
