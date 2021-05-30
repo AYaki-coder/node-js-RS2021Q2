@@ -151,7 +151,10 @@ export const createBoard = async (board: IBoardInfo): Promise<IBoardInfo> => {
  * @param {object} data - an object with a key/ some keys of IBoardInfo (the information about a board)
  * @return {IBoardInfo | null} - object with information about a board or null if there is no board with such an id
  */
-export const updateBoard = (id: string, data: Partial<IBoardInfo>) => {
+export const updateBoard = (
+  id: string,
+  data: Partial<IBoardInfo>
+): IBoardInfo | null => {
   const item = MyBoardsDataBase.find((board) => board.id === id);
   if (!item) {
     return null;
@@ -217,7 +220,10 @@ export const getAllTasks = async (boardId: string): Promise<Array<ITaskInfo>> =>
  * @param {object} data - an object with a key/ some keys of ITaskInfo (the information about a task)
  * @return {ITaskInfo | null } - object with information about a board or null if there is no board with such an id
  */
-export const updateTask = (id: string, data: Partial<ITaskInfo>) => {
+export const updateTask = (
+  id: string,
+  data: Partial<ITaskInfo>
+): ITaskInfo | null => {
   const item = MyTasksDataBase.find((task) => task.id === id);
   if (!item) {
     return null;
