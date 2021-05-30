@@ -13,9 +13,10 @@ const DB = require('../../common/inMemoryDB');
  */
 
  /**
- * Queries all tasks from the data base
+ * Queries all tasks from the board
  * @async
- * @return {Promise<Array<ITaskInfo>>} - Promise array with objects with information about a task
+ * @param {string} boardId - the id of a chosen board
+ * @return {Promise<Array<ITaskInfo>>} - Promise array with objects with information about all task on the chosen board
  */
 const getAll = async boardId => DB.getAllTasks(boardId);
 
