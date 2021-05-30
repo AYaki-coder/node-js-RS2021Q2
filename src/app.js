@@ -22,8 +22,6 @@ app.use('/', (req, res, next) => {
   next();
 });
 
-console.log('init the task');
-
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 boardRouter.use('/:boardID/tasks', taskRouter);

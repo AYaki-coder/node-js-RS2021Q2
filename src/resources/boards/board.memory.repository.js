@@ -63,7 +63,7 @@ const update = async (id, data) => {
 };
 
 /**
- * Removes a board from the data base
+ * Removes a board and its tasks from the data base
  * @async
  * @param {string} id - id of a board
  * @return {Promise<IBoardInfo>} - Promise object with information about a board or throws an error if a board was not found
