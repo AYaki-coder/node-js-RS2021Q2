@@ -1,4 +1,5 @@
-const tasksRepo = require('./task.memory.repository');
+import { ITaskInfo } from './task';
+import * as tasksRepo from './task.memory.repository';
 
 /**
  * The Interface describing information about a task
@@ -12,32 +13,37 @@ const tasksRepo = require('./task.memory.repository');
  * @property {string} columnId - id of a column where the task is
  */
 
- /**
- * Queries all tasks from the data base
+/**
+ * Queries all tasks from the board
+ * @async
+ * @param {string} boardId - the id of a chosen board
  * @return {Promise<Array<ITaskInfo>>} - Promise array with objects with information about a task
  */
-const getAll = boardId => tasksRepo.getAll(boardId);
+export const getAll = (boardId: string): Promise<Array<ITaskInfo>> =>
+  tasksRepo.getAll(boardId);
 
 /**
  * Queries one task from the data base by id
  * @param {string} id - the id of a task
  * @return {Promise<ITaskInfo>} - Promise object with information about a task or throws an error if a task was not found
  */
-const get = id => tasksRepo.get(id);
+export const get = (id: string): Promise<ITaskInfo> => tasksRepo.get(id);
 
 /**
  * Records a new task into the data base
  * @param { ITaskInfo } task - an object with information about a task
  * @return {Promise<ITaskInfo>} - Promise object with information about a task
  */
-const create = task => tasksRepo.create(task);
+export const create = (task: ITaskInfo): Promise<ITaskInfo> =>
+  tasksRepo.create(task);
 
 /**
- * Removes a task from the data base 
+ * Removes a task from the data base
  * @param {string} id - id of a task
  * @return {Promise<Array<ITaskInfo>>} - Promise array with an object with information about the deleted task or throws an error if a task was not found
  */
-const remove = id => tasksRepo.remove(id);
+export const remove = (id: string): Promise<ITaskInfo[]> =>
+  tasksRepo.remove(id);
 
 /**
  * Updates information about a task
@@ -45,6 +51,7 @@ const remove = id => tasksRepo.remove(id);
  * @param {object} data - an object with a key/ some keys of ITaskInfo (the information about a task)
  * @return {Promise<ITaskInfo>} - Promise object with information about a task or throws an error if a task was not found
  */
-const update = (id, data) => tasksRepo.update(id, data);
-
-module.exports = { getAll, get, create, remove, update };
+export const update = (
+  id: string,
+  data: Partial<ITaskInfo>
+): Promise<ITaskInfo> => tasksRepo.update(id, data);

@@ -1,8 +1,11 @@
-const router = require('express').Router({ mergeParams: true });
-const Task = require('./task.model');
-const tasksService = require('./task.service');
+import { Router } from 'express';
+import { Req1 } from './task';
+import Task from './task.model';
+import * as tasksService from './task.service';
 
-router.route('/').get(async (req, res) => {
+const router = Router({ mergeParams: true });
+
+router.route('/').get(async (req: Req1, res) => {
   const tasks = await tasksService.getAll(req.params.boardID);
   res.json(tasks.map(Task.toResponse));
 });
@@ -16,7 +19,7 @@ router.route('/:taskId').get(async (req, res) => {
   }
 });
 
-router.route('/').post(async (req, res) => {
+router.route('/').post(async (req: Req1, res) => {
   const task = await tasksService.create(
     new Task({
       title: req.body.title,
@@ -24,7 +27,7 @@ router.route('/').post(async (req, res) => {
       description: req.body.description,
       userId: req.body.userId,
       boardId: req.params.boardID,
-      columnId: null
+      columnId: null,
     })
   );
   res.status(201).json(Task.toResponse(task));
@@ -48,4 +51,4 @@ router.route('/:taskId').delete(async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

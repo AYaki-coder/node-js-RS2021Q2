@@ -1,9 +1,12 @@
-const User = require('../resources/users/user.model');
-const Board = require('../resources/boards/board.model');
+import User from '../resources/users/user.model';
+import Board from '../resources/boards/board.model';
+import { IUserInfo } from './../resources/users/user';
+import { IBoardInfo } from './../resources/boards/board';
+import { ITaskInfo } from './../resources/tasks/task';
 
-const MyUsersDataBase = [];
-const MyBoardsDataBase = [];
-const MyTasksDataBase = [];
+const MyUsersDataBase: IUserInfo[] = [];
+const MyBoardsDataBase: IBoardInfo[] = [];
+const MyTasksDataBase: ITaskInfo[] = [];
 
 MyUsersDataBase.push(new User(), new User(), new User(), new User());
 MyBoardsDataBase.push(new Board(), new Board());
@@ -17,7 +20,7 @@ MyBoardsDataBase.push(new Board(), new Board());
  * @property {string} password - password of a user
  */
 
- /**
+/**
  * The Interface describing information about a board
  * @typedef {Object} IBoardInfo
  * @property {string} id - id of a board
@@ -25,7 +28,7 @@ MyBoardsDataBase.push(new Board(), new Board());
  * @property {Array<IColumnInfo>} columns - columns of a board
  */
 
- /**
+/**
  * The Interface describing information about a column
  * @typedef {Object} IColumnInfo
  * @property {string} id - id of a column
@@ -33,7 +36,7 @@ MyBoardsDataBase.push(new Board(), new Board());
  * @property {number} order - order of a column
  */
 
- /**
+/**
  * The Interface describing information about a task
  * @typedef {Object} ITaskInfo
  * @property {string} id - id of a task
@@ -45,12 +48,13 @@ MyBoardsDataBase.push(new Board(), new Board());
  * @property {string} columnId - id of a column where the task is
  */
 
- /**
- * Queries all users from data base
- * @async
- * @return {Promise<Array<IUserInfo>>} - Promise array with objects with full information about a user
- */
-const getAllUsers = async () => MyUsersDataBase.slice(0);
+//  /**
+//  * Queries all users from data base
+//  * @async
+//  * @return {Promise<Array<IUserInfo>>} - Promise array with objects with full information about a user
+//  */
+export const getAllUsers = async (): Promise<IUserInfo[]> =>
+  MyUsersDataBase.slice(0);
 
 /**
  * Queries one user from the data base by id
@@ -58,8 +62,8 @@ const getAllUsers = async () => MyUsersDataBase.slice(0);
  * @param {string} id - the id of a user
  * @return {Promise<(IUserInfo | undefined)>} - Promise object with full information about a user or promise undefined if there is no user with such an id
  */
-const getUser = async id => MyUsersDataBase.filter(el => el.id === id)[0];
-
+export const getUser = async (id: string): Promise<IUserInfo | undefined> =>
+  MyUsersDataBase.filter((el) => el.id === id)[0];
 
 /**
  * Records a new user into the data base
@@ -67,7 +71,7 @@ const getUser = async id => MyUsersDataBase.filter(el => el.id === id)[0];
  * @param {IUserInfo} user - the full information about a user
  * @return {Promise<IUserInfo>} - Promise object with full information about a user
  */
-const createUser = async user => {
+export const createUser = async (user: IUserInfo): Promise<IUserInfo> => {
   MyUsersDataBase.push(user);
   return user;
 };
@@ -78,16 +82,20 @@ const createUser = async user => {
  * @param {object} data - an object with a key/ some keys of IUserInfo (the full information about a user)
  * @return {IUserInfo | null} - an object with full information about a user or null if there is no user with such an id
  */
-const updateUser = (id, data) => {
-  const { name, login, password } = data;
-  const i = MyUsersDataBase.findIndex(user => user.id === id);
-  if (i > -1) {
-    MyUsersDataBase[i].name = name;
-    MyUsersDataBase[i].login = login;
-    MyUsersDataBase[i].password = password;
-    return MyUsersDataBase[i];
+export const updateUser = (
+  id: string,
+  data: Partial<IUserInfo>
+): IUserInfo | null => {
+  const item = MyUsersDataBase.find((user) => user.id === id);
+
+  if (!item) {
+    return null;
   }
-  return null;
+
+  item.login = data.login ? data.login : item.login;
+  item.name = data.name ? data.name : item.name;
+  item.password = data.password ? data.password : item.password;
+  return item;
 };
 
 /**
@@ -96,15 +104,15 @@ const updateUser = (id, data) => {
  * @param {string} id - id of a user
  * @return {Promise<Array<IUserInfo>>} - Promise array with an object with full information about the deleted user
  */
-const removeUser = async id => {
-  MyTasksDataBase.forEach(item => {
+export const removeUser = async (id: string): Promise<IUserInfo[]> => {
+  MyTasksDataBase.forEach((item) => {
     if (item.userId === id) {
       const tmp = item;
       tmp.userId = null;
     }
   });
   return MyUsersDataBase.splice(
-    MyUsersDataBase.findIndex(user => user.id === id),
+    MyUsersDataBase.findIndex((user) => user.id === id),
     1
   );
 };
@@ -114,7 +122,8 @@ const removeUser = async id => {
  * @async
  * @return {Promise<Array<IBoardInfo>>} - Promise array with objects with information about a board
  */
-const getAllBoards = async () => MyBoardsDataBase.slice(0);
+export const getAllBoards = async (): Promise<IBoardInfo[]> =>
+  MyBoardsDataBase.slice(0);
 
 /**
  * Queries one board from the data base by id
@@ -122,7 +131,8 @@ const getAllBoards = async () => MyBoardsDataBase.slice(0);
  * @param {string} id - the id of a board
  * @return {Promise<(IBoardInfo | undefined)>} - Promise object with full information about a board or promise undefined if there is no board with such an id
  */
-const getBoard = async id => MyBoardsDataBase.filter(el => el.id === id)[0];
+export const getBoard = async (id: string): Promise<IBoardInfo | undefined> =>
+  MyBoardsDataBase.filter((el) => el.id === id)[0];
 
 /**
  * Records a new board into the data base
@@ -130,11 +140,10 @@ const getBoard = async id => MyBoardsDataBase.filter(el => el.id === id)[0];
  * @param { IBoardInfo } board - an object with information about a board
  * @return {Promise<IBoardInfo>} - Promise object with information about a board
  */
-const createBoard = async board => {
+export const createBoard = async (board: IBoardInfo): Promise<IBoardInfo> => {
   MyBoardsDataBase.push(board);
   return board;
 };
-
 
 /**
  * Updates information about a board
@@ -142,15 +151,16 @@ const createBoard = async board => {
  * @param {object} data - an object with a key/ some keys of IBoardInfo (the information about a board)
  * @return {IBoardInfo | null} - object with information about a board or null if there is no board with such an id
  */
-const updateBoard = (id, data) => {
-  const { title, column } = data;
-  const i = MyBoardsDataBase.findIndex(board => board.id === id);
-  if (i > -1) {
-    MyBoardsDataBase[i].title = title;
-    MyBoardsDataBase[i].column = column;
-    return MyBoardsDataBase[i];
+export const updateBoard = (id: string, data: Partial<IBoardInfo>) => {
+  const item = MyBoardsDataBase.find((board) => board.id === id);
+  if (!item) {
+    return null;
   }
-  return null;
+
+  item.title = data.title ? data.title : item.title;
+  item.columns = data.columns ? data.columns : item.columns;
+
+  return item;
 };
 
 /**
@@ -159,15 +169,15 @@ const updateBoard = (id, data) => {
  * @param {string} id - id of a board
  * @return {Promise<Array<IBoardInfo>>} - Promise array with an object with full information about the deleted board
  */
-const removeBoard = async id => {
+export const removeBoard = async (id: string): Promise<IBoardInfo[]> => {
   for (let i = 0; i < MyTasksDataBase.length; i += 1) {
-    if (MyTasksDataBase[i].boardId === id) {
+    if (MyTasksDataBase[i]?.boardId === id) {
       MyTasksDataBase.splice(i, 1);
-      i -=1;
+      i -= 1;
     }
   }
   return MyBoardsDataBase.splice(
-    MyBoardsDataBase.findIndex(board => board.id === id),
+    MyBoardsDataBase.findIndex((board) => board.id === id),
     1
   );
 };
@@ -177,8 +187,8 @@ const removeBoard = async id => {
  * @async
  * @param { ITaskInfo } task - an object with information about a task
  * @return {Promise<ITaskInfo>} - Promise object with information about a task
- */ 
-const createTask = async task => {
+ */
+export const createTask = async (task: ITaskInfo): Promise<ITaskInfo> => {
   MyTasksDataBase.push(task);
   return task;
 };
@@ -189,7 +199,8 @@ const createTask = async task => {
  * @param {string} id - the id of a task
  * @return {Promise<(ITaskInfo | undefined)>} -Promise object with full information about a task or promise undefined if there is no task with such an id
  */
-const getTask = async id => MyTasksDataBase.filter(el => el.id === id)[0];
+export const getTask = async (id: string): Promise<ITaskInfo | undefined> =>
+  MyTasksDataBase.filter((el) => el.id === id)[0];
 
 /**
  * Queries all tasks from the board
@@ -197,7 +208,8 @@ const getTask = async id => MyTasksDataBase.filter(el => el.id === id)[0];
  * @param {string} boardId - the id of a chosen board
  * @return {Promise<Array<ITaskInfo>>} - Promise array with objects with information about all task on the chosen board
  */
-const getAllTasks = async boardId => MyTasksDataBase.filter(el => el.boardId === boardId);
+export const getAllTasks = async (boardId: string): Promise<Array<ITaskInfo>> =>
+  MyTasksDataBase.filter((el) => el.boardId === boardId);
 
 /**
  * Updates information about a task
@@ -205,47 +217,29 @@ const getAllTasks = async boardId => MyTasksDataBase.filter(el => el.boardId ===
  * @param {object} data - an object with a key/ some keys of ITaskInfo (the information about a task)
  * @return {ITaskInfo | null } - object with information about a board or null if there is no board with such an id
  */
-const updateTask = (id, data) => {
-  const { title, order, description, userId, columnId } = data;
-  const i = MyTasksDataBase.findIndex(task => task.id === id);
-  if (i > -1) {
-    MyTasksDataBase[i].title = title;
-    MyTasksDataBase[i].order = order;
-    MyTasksDataBase[i].description = description;
-    MyTasksDataBase[i].userId = userId;
-    MyTasksDataBase[i].columnId = columnId;
-
-    return MyTasksDataBase[i];
+export const updateTask = (id: string, data: Partial<ITaskInfo>) => {
+  const item = MyTasksDataBase.find((task) => task.id === id);
+  if (!item) {
+    return null;
   }
-  return null;
+
+  item.title = data.title ? data.title : item.title;
+  item.order = data.order ? data.order : item.order;
+  item.description = data.description ? data.description : item.description;
+  item.userId = data.userId ? data.userId : item.userId;
+  item.columnId = data.columnId ? data.columnId : item.columnId;
+
+  return item;
 };
 
 /**
- * Removes a task from the data base 
+ * Removes a task from the data base
  * @async
  * @param {string} id - id of a task
  * @return {Promise<Array<ITaskInfo>>} - Promise array of objects with full information about all tasks accept the deleted one
  */
-const removeTask = async id =>
+export const removeTask = async (id: string): Promise<ITaskInfo[]> =>
   MyTasksDataBase.splice(
-    MyTasksDataBase.findIndex(task => task.id === id),
+    MyTasksDataBase.findIndex((task) => task.id === id),
     1
   );
-
-module.exports = {
-  getAllUsers,
-  getUser,
-  createUser,
-  removeUser,
-  updateUser,
-  getAllBoards,
-  getBoard,
-  createBoard,
-  updateBoard,
-  removeBoard,
-  createTask,
-  getTask,
-  getAllTasks,
-  updateTask,
-  removeTask
-};

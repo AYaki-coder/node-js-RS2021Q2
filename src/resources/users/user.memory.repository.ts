@@ -1,4 +1,5 @@
-const DB = require('../../common/inMemoryDB');
+import * as DB from '../../common/inMemoryDB';
+import { IUserInfo } from './user';
 
 /**
  * The Interface describing information about a user
@@ -14,7 +15,7 @@ const DB = require('../../common/inMemoryDB');
  * @async
  * @return {Promise<Array<IUserInfo>>} - Promise array with objects with full information about a user
  */
-const getAll = async () => DB.getAllUsers();
+export const getAll = async (): Promise<Array<IUserInfo>> => DB.getAllUsers();
 
 /**
  * Queries one user from the data base by id
@@ -22,7 +23,7 @@ const getAll = async () => DB.getAllUsers();
  * @param {string} id - the id of a user
  * @return {Promise<IUserInfo>} - Promise object with full information about a user or throws an error if the user was not found
  */
-const get = async id => {
+export const get = async (id: string): Promise<IUserInfo> => {
   const user = await DB.getUser(id);
 
   if (!user) {
@@ -38,7 +39,8 @@ const get = async id => {
  * @param {IUserInfo} user - the full information about a user
  * @return {Promise<IUserInfo>} - Promise object with full information about a user
  */
-const create = async user => DB.createUser(user);
+export const create = async (user: IUserInfo): Promise<IUserInfo> =>
+  DB.createUser(user);
 
 /**
  * Updates information about a user
@@ -47,7 +49,10 @@ const create = async user => DB.createUser(user);
  * @param {object} data - an object with a key/ some keys of IUserInfo (the full information about a user)
  * @return {Promise<IUserInfo>} - Promise object with full information about a user or throws an error if the user was not found
  */
-const update = async (id, data) => {
+export const update = async (
+  id: string,
+  data: Partial<IUserInfo>
+): Promise<IUserInfo> => {
   const user = await DB.updateUser(id, data);
   if (!user) {
     throw new Error(`The User with id ${id} was not found.`);
@@ -61,7 +66,7 @@ const update = async (id, data) => {
  * @param {string} id - id of a user
  * @return {Promise<Array<IUserInfo>>} - Promise array with an object with full information about the deleted user or throws an error if the user was not found
  */
-const remove = async id => {
+export const remove = async (id: string): Promise<IUserInfo[]> => {
   const user = await DB.removeUser(id);
 
   if (!user) {
@@ -70,5 +75,3 @@ const remove = async id => {
 
   return user;
 };
-
-module.exports = { getAll, get, create, remove, update };

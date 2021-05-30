@@ -1,5 +1,5 @@
-import {v4 as uuid} from 'uuid';
-import {ITaskInfo} from './task';
+import { v4 as uuid } from 'uuid';
+import { ITaskInfo } from './task';
 
 /**
  * The Interface describing information about a board
@@ -13,16 +13,16 @@ import {ITaskInfo} from './task';
  * @property {string} columnId - id of a column where the task is
  */
 
- /** Class representing a task */
-class Task {
-  readonly id: string;
-  readonly title: string;
-  readonly order: number;
-  readonly description: string;
-  readonly userId: string | null;
-  readonly boardId: string;
-  readonly columnId: string | null;
-   /** 
+/** Class representing a task */
+export default class Task {
+  id: string;
+  title: string;
+  order: number;
+  description: string;
+  userId: string | null;
+  boardId: string;
+  columnId: string | null;
+  /**
    * Create a task model
    * @param { ITaskInfo } - an object with information about a task
    */
@@ -33,8 +33,8 @@ class Task {
     description = 'string',
     userId = null,
     boardId = 'string',
-    columnId = null
-  } : ITaskInfo) {
+    columnId = null,
+  }: Partial<ITaskInfo> = {}) {
     this.id = id;
     this.title = title;
     this.order = order;
@@ -49,10 +49,8 @@ class Task {
    * @param { ITaskInfo } board - an object with information about a task
    * @return { ITaskInfo } - an object with information about a task
    */
-  static toResponse(task : ITaskInfo): ITaskInfo{
+  static toResponse(task: ITaskInfo): ITaskInfo {
     const { id, title, order, description, userId, boardId, columnId } = task;
     return { id, title, order, description, userId, boardId, columnId };
   }
 }
-
-module.exports = Task;

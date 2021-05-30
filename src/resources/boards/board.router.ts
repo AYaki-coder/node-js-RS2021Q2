@@ -1,8 +1,9 @@
-const router = require('express').Router();
-const Board = require('./board.model');
-const boardsService = require('./board.service');
+import { Router } from 'express';
+import Board from './board.model';
+import * as boardsService from './board.service';
 
-router.route('/').get(async (req, res) => {
+const router = Router();
+router.route('/').get(async (_, res) => {
   const boards = await boardsService.getAll();
   res.json(boards.map(Board.toResponse));
 });
@@ -20,7 +21,7 @@ router.route('/').post(async (req, res) => {
   const board = await boardsService.create(
     new Board({
       title: req.body.title,
-      columns: req.body.columns
+      columns: req.body.columns,
     })
   );
 
@@ -45,4 +46,4 @@ router.route('/:id').delete(async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

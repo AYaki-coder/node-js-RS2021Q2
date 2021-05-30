@@ -1,5 +1,5 @@
-import {v4 as uuid} from 'uuid';
-import {IUserInfo} from './user';
+import { v4 as uuid } from 'uuid';
+import { IUserInfo } from './user';
 
 /**
  * The Interface describing information about a user
@@ -10,7 +10,7 @@ import {IUserInfo} from './user';
  * @property {string} password - password of a user
  */
 
- /**
+/**
  * The Interface describing information about a user that can be got as a response (without password)
  * @typedef {Object} IUserInfoToResponse
  * @property {string} id - id of a user
@@ -20,11 +20,11 @@ import {IUserInfo} from './user';
 
 /** Class representing a user */
 export default class User {
-  readonly id: string;
-  readonly name: string;
-  readonly login: string;
-  readonly password: string;
-  /** 
+  id: string;
+  name: string;
+  login: string;
+  password: string;
+  /**
    * Create a user model
    * @param { IUserInfo } - an object with information about a user
    */
@@ -32,8 +32,8 @@ export default class User {
     id = uuid(),
     name = 'USER',
     login = 'user',
-    password = 'P@55w0rd'
-  } : IUserInfo) {
+    password = 'P@55w0rd',
+  }: Partial<IUserInfo> = {}) {
     this.id = id;
     this.name = name;
     this.login = login;
@@ -45,7 +45,7 @@ export default class User {
    * @param {IUserInfo} user - an object with full information about a user
    * @return {IUserInfoToResponse} - an object with information about a user without password
    */
-  static toResponse(user: IUserInfo) : Omit<IUserInfo , 'password'>{
+  static toResponse(user: IUserInfo): Omit<IUserInfo, 'password'> {
     const { id, name, login } = user;
     return { id, name, login };
   }

@@ -1,4 +1,5 @@
-const DB = require('../../common/inMemoryDB');
+import * as DB from '../../common/inMemoryDB';
+import { ITaskInfo } from './task';
 
 /**
  * The Interface describing information about a task
@@ -12,13 +13,14 @@ const DB = require('../../common/inMemoryDB');
  * @property {string} columnId - id of a column where the task is
  */
 
- /**
+/**
  * Queries all tasks from the board
  * @async
  * @param {string} boardId - the id of a chosen board
  * @return {Promise<Array<ITaskInfo>>} - Promise array with objects with information about all task on the chosen board
  */
-const getAll = async boardId => DB.getAllTasks(boardId);
+export const getAll = async (boardId: string): Promise<Array<ITaskInfo>> =>
+  DB.getAllTasks(boardId);
 
 /**
  * Queries one task from the data base by id
@@ -26,7 +28,7 @@ const getAll = async boardId => DB.getAllTasks(boardId);
  * @param {string} id - the id of a task
  * @return {Promise<ITaskInfo>} - Promise object with information about a task or throws an error if a task was not found
  */
-const get = async id => {
+export const get = async (id: string): Promise<ITaskInfo> => {
   const task = await DB.getTask(id);
 
   if (!task) {
@@ -42,7 +44,8 @@ const get = async id => {
  * @param { ITaskInfo } task - an object with information about a task
  * @return {Promise<ITaskInfo>} - Promise object with information about a task
  */
-const create = async task => DB.createTask(task);
+export const create = async (task: ITaskInfo): Promise<ITaskInfo> =>
+  DB.createTask(task);
 
 /**
  * Updates information about a task
@@ -51,7 +54,10 @@ const create = async task => DB.createTask(task);
  * @param {object} data - an object with a key/ some keys of ITaskInfo (the information about a task)
  * @return {Promise<ITaskInfo>} - Promise object with information about a task or throws an error if a task was not found
  */
-const update = async (id, data) => {
+export const update = async (
+  id: string,
+  data: Partial<ITaskInfo>
+): Promise<ITaskInfo> => {
   const task = await DB.updateTask(id, data);
   if (!task) {
     throw new Error(`The Task with id ${id} was not found.`);
@@ -60,12 +66,12 @@ const update = async (id, data) => {
 };
 
 /**
- * Removes a task from the data base 
+ * Removes a task from the data base
  * @async
  * @param {string} id - id of a task
  * @return {Promise<Array<ITaskInfo>>} - Promise array with an object with information about the deleted task or throws an error if a task was not found
  */
-const remove = async id => {
+export const remove = async (id: string): Promise<ITaskInfo[]> => {
   const task = await DB.removeTask(id);
 
   if (!task) {
@@ -74,5 +80,3 @@ const remove = async id => {
 
   return task;
 };
-
-module.exports = { getAll, get, create, remove, update };
