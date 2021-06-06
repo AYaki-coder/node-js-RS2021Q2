@@ -1,4 +1,5 @@
 import * as DB from '../../common/inMemoryDB';
+import { CustomError } from '../../custom-error/custom-error';
 import { ITaskInfo } from './task';
 
 /**
@@ -32,7 +33,7 @@ export const get = async (id: string): Promise<ITaskInfo> => {
   const task = await DB.getTask(id);
 
   if (!task) {
-    throw new Error(`The Task with id ${id} was not found.`);
+    throw new CustomError(`The Task with id ${id} was not found.`, 404);
   }
 
   return task;
@@ -60,7 +61,7 @@ export const update = async (
 ): Promise<ITaskInfo> => {
   const task = await DB.updateTask(id, data);
   if (!task) {
-    throw new Error(`The Task with id ${id} was not found.`);
+    throw new CustomError(`The Task with id ${id} was not found.`, 404);
   }
   return task;
 };
@@ -75,7 +76,7 @@ export const remove = async (id: string): Promise<ITaskInfo[]> => {
   const task = await DB.removeTask(id);
 
   if (!task) {
-    throw new Error(`The Task with id ${id} was not found.`);
+    throw new CustomError(`The Task with id ${id} was not found.`, 404);
   }
 
   return task;
