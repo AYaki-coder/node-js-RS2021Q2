@@ -81,7 +81,7 @@ export const logUncaughtException = (err: Error, origin: string): void => {
 };
 
 export const logUnhandledRejection = (message: string): void => {
-  logger.info({
+  logger.error({
     message: `${message}`,
   });
 };
