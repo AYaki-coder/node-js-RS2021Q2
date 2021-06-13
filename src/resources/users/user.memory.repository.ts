@@ -1,4 +1,5 @@
 import * as DB from '../../common/inMemoryDB';
+import { CustomError } from '../../custom-error/custom-error';
 import { IUserInfo } from './user';
 
 /**
@@ -27,7 +28,7 @@ export const get = async (id: string): Promise<IUserInfo> => {
   const user = await DB.getUser(id);
 
   if (!user) {
-    throw new Error(`The User with id ${id} was not found.`);
+    throw new CustomError(`The User with id ${id} was not found.`, 404);
   }
 
   return user;
@@ -55,7 +56,7 @@ export const update = async (
 ): Promise<IUserInfo> => {
   const user = await DB.updateUser(id, data);
   if (!user) {
-    throw new Error(`The User with id ${id} was not found.`);
+    throw new CustomError(`The User with id ${id} was not found.`, 404);
   }
   return user;
 };
@@ -70,7 +71,7 @@ export const remove = async (id: string): Promise<IUserInfo[]> => {
   const user = await DB.removeUser(id);
 
   if (!user) {
-    throw new Error(`The User with id ${id} was not found.`);
+    throw new CustomError(`The User with id ${id} was not found.`, 404);
   }
 
   return user;

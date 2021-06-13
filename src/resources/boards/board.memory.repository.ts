@@ -1,4 +1,5 @@
 import * as DB from '../../common/inMemoryDB';
+import { CustomError } from '../../custom-error/custom-error';
 import { IBoardInfo } from './board';
 
 /**
@@ -34,7 +35,7 @@ export const get = async (id: string): Promise<IBoardInfo> => {
   const board = await DB.getBoard(id);
 
   if (!board) {
-    throw new Error(`The Board with id ${id} was not found.`);
+    throw new CustomError(`The Board with id ${id} was not found.`);
   }
 
   return board;
@@ -62,7 +63,7 @@ export const update = async (
 ): Promise<IBoardInfo> => {
   const board = await DB.updateBoard(id, data);
   if (!board) {
-    throw new Error(`The Board with id ${id} was not found.`);
+    throw new CustomError(`The Board with id ${id} was not found.`, 404);
   }
   return board;
 };
@@ -77,7 +78,7 @@ export const remove = async (id: string): Promise<Array<IBoardInfo>> => {
   const board = await DB.removeBoard(id);
 
   if (!board) {
-    throw new Error(`The Board with id ${id} was not found.`);
+    throw new CustomError(`The Board with id ${id} was not found.`, 404);
   }
 
   return board;
