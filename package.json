@@ -9,6 +9,7 @@
   "description": "REST service starter for RS School",
   "main": "src/server.js",
   "scripts": {
+    "docker": "nodemon -L --exitcrash src/server.ts",
     "start": "nodemon src/server.ts",
     "lint": "eslint --ext .js,.ts --fix src/",
     "doc": "jsdoc -c ./jsdoc.config.json",

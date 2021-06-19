@@ -29,6 +29,8 @@ app.use('/', (req, res, next) => {
   next();
 });
 
+console.log('task6');
+
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 boardRouter.use('/:boardID/tasks', taskRouter);
@@ -36,9 +38,5 @@ app.use(handleErrors);
 process.on('uncaughtException', handleUncaughtException);
 
 process.on('unhandledRejection', handleUnhandledRejection);
-
-// PUT IT HERE
-throw Error('Oops!');
-// Promise.reject(Error('Oops!'));
 
 export default app;
