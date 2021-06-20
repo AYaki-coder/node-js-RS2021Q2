@@ -2,7 +2,7 @@ import { createLogger, format, transports } from 'winston';
 import { finished } from 'stream';
 import { Request, Response, NextFunction } from 'express';
 
-const logger = createLogger({
+export const logger = createLogger({
   transports: [
     new transports.File({
       filename: `logs/info.log`,
@@ -74,8 +74,8 @@ export const logAllErrors = (
 
 export const logUncaughtException = (err: Error, origin: string): void => {
   logger.error({
-    message: `Caught exception: ${err}\n
-    Exception origin: ${origin}`,
+    message: `Caught exception: ${err}
+    Exception origin: ${origin}\n`,
   });
   logger.exitOnError = true;
 };
