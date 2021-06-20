@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { createConnection } from 'typeorm';
 import config from './common/config';
 import app from './app';
-import { typeormConfig } from './common/ormconfig';
+import typeormConfig from './common/ormconfig';
 import { logger } from './logger/logger';
 import { handleUncaughtException } from './custom-error/error-handler';
 

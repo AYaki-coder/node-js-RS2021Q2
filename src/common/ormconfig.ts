@@ -1,14 +1,16 @@
 import { ConnectionOptions } from 'typeorm';
 import config from './config';
 
-export const typeormConfig: ConnectionOptions = {
+const typeormConfig: ConnectionOptions = {
   type: 'postgres',
   host: config.POSTGRES_HOST,
   port: Number(config.POSTGRES_PORT),
   username: config.POSTGRES_USER,
   password: config.POSTGRES_PASSWORD,
   database: config.POSTGRES_DB,
-  synchronize: true,
+  synchronize: false,
+  dropSchema: true,
+  migrationsRun: true,
   logging: false,
   entities: ['src/entities/**/*.ts'],
   migrations: ['src/migration/**/*.ts'],
@@ -19,3 +21,5 @@ export const typeormConfig: ConnectionOptions = {
     subscribersDir: 'src/subscriber',
   },
 };
+
+export default typeormConfig;

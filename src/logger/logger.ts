@@ -73,6 +73,7 @@ export const logAllErrors = (
 };
 
 export const logUncaughtException = (err: Error, origin: string): void => {
+  console.error(err);
   logger.error({
     message: `Caught exception: ${err}
     Exception origin: ${origin}\n`,
