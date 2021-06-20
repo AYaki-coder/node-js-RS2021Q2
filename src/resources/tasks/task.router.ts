@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { Req1 } from './task';
-import Task from './task.model';
+import Task from '../../entities/task';
 import * as tasksService from './task.service';
 
 const router = Router({ mergeParams: true });
@@ -25,16 +25,10 @@ router.route('/:taskId').get(async (req, res, next) => {
 
 router.route('/').post(async (req: Req1, res, next) => {
   try {
-    const task = await tasksService.create(
-      new Task({
-        title: req.body.title,
-        order: req.body.order,
-        description: req.body.description,
-        userId: req.body.userId,
-        boardId: req.params.boardID,
-        columnId: null,
-      })
-    );
+    const task = await tasksService.create({
+      ...req.body,
+      boardId: req.params.boardID,
+    });
     res.status(201).json(Task.toResponse(task));
   } catch (e) {
     next(e);
@@ -43,7 +37,10 @@ router.route('/').post(async (req: Req1, res, next) => {
 
 router.route('/:taskId').put(async (req, res, next) => {
   try {
-    const task = await tasksService.update(req.params.taskId, req.body);
+    const task = await tasksService.update(req.params.taskId, {
+      ...req.body,
+      taskId: req.params.taskId,
+    });
     res.json(Task.toResponse(task));
   } catch (e) {
     next(e);
