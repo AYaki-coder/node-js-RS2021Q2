@@ -1,6 +1,7 @@
 import User from '../../entities/user';
 import { CustomError } from '../../custom-error/custom-error';
 import { getRepository } from 'typeorm';
+import { unassignUserFromTask } from '../tasks/task.db.repository';
 
 export const getAll = async (): Promise<User[]> => getRepository(User).find();
 
@@ -32,12 +33,14 @@ export const update = async (
   return updatedUser;
 };
 
-// export const remove = async (id: string): Promise<User[]> => {
-//   const user = await DB.removeUser(id);
+export const remove = async (id: string): Promise<User> => {
+  const user = await getRepository(User).findOne(id);
 
-//   if (!user) {
-//     throw new CustomError(`The User with id ${id} was not found.`, 404);
-//   }
+  if (!user) {
+    throw new CustomError(`The User with id ${id} was not found.`, 404);
+  }
+  await unassignUserFromTask(id);
+  await getRepository(User).delete(id);
 
-//   return user;
-// };
+  return user;
+};

@@ -41,13 +41,13 @@ router.route('/:id').put(async (req, res, next) => {
   }
 });
 
-// router.route('/:id').delete(async (req, res, next) => {
-//   try {
-//     await usersService.remove(req.params.id);
-//     res.status(204).send('The user has been deleted');
-//   } catch (e) {
-//     next(e);
-//   }
-// });
+router.route('/:id').delete(async (req, res, next) => {
+  try {
+    await usersService.remove(req.params.id);
+    res.status(204).send('The user has been deleted');
+  } catch (e) {
+    next(e);
+  }
+});
 
 export default router;

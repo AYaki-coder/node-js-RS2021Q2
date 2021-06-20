@@ -8,8 +8,7 @@ export const get = (id: string): Promise<User> => usersRepo.get(id);
 export const create = (user: Omit<User, 'id'>): Promise<User> =>
   usersRepo.create(user);
 
-// export const remove = (id: string): Promise<User[]> =>
-//   usersRepo.remove(id);
+export const remove = (id: string): Promise<User> => usersRepo.remove(id);
 
 export const update = (id: string, data: Partial<User>): Promise<User> =>
   usersRepo.update(id, data);

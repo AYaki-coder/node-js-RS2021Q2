@@ -7,7 +7,6 @@ export const getAll = async (boardId: string): Promise<Task[]> =>
 
 export const get = async (id: string): Promise<Task> => {
   const task = await getRepository(Task).findOne(id);
-  console.log('GET TASK id task', id, task);
   if (!task) {
     throw new CustomError(`The Task with id ${id} was not found.`, 404);
   }
@@ -17,9 +16,7 @@ export const get = async (id: string): Promise<Task> => {
 
 export const create = async (task: Omit<Task, 'id'>): Promise<Task> => {
   const newTask = await getRepository(Task).create(task);
-  console.log('newTask', newTask);
-  const task2 = await getRepository(Task).save(newTask);
-  console.log('task2', task2);
+  await getRepository(Task).save(newTask);
   return newTask;
 };
 
@@ -32,7 +29,6 @@ export const update = async (
     throw new CustomError(`The Task with id ${id} was not found.`, 404);
   }
   const updatedTask = await getRepository(Task).save({ ...task, ...data, id });
-  console.log('updatedTask', updatedTask);
   return updatedTask;
 };
 
