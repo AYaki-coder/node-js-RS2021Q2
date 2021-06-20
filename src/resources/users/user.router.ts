@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import User from './user.model';
+import User from '../../entities/user';
 import * as usersService from './user.service';
 
 const router = Router();
@@ -25,14 +25,7 @@ router.route('/:id').get(async (req, res, next) => {
 
 router.route('/').post(async (req, res, next) => {
   try {
-    const user = await usersService.create(
-      new User({
-        login: req.body.login,
-        password: req.body.password,
-        name: req.body.name,
-        id: req.body.id,
-      })
-    );
+    const user = await usersService.create(req.body);
     res.status(201).json(User.toResponse(user));
   } catch (error) {
     next(error);
@@ -42,20 +35,19 @@ router.route('/').post(async (req, res, next) => {
 router.route('/:id').put(async (req, res, next) => {
   try {
     const user = await usersService.update(req.params.id, req.body);
-    // res.status(200).send('The user has been updated.');
     res.json(User.toResponse(user));
   } catch (e) {
     next(e);
   }
 });
 
-router.route('/:id').delete(async (req, res, next) => {
-  try {
-    await usersService.remove(req.params.id);
-    res.status(204).send('The user has been deleted');
-  } catch (e) {
-    next(e);
-  }
-});
+// router.route('/:id').delete(async (req, res, next) => {
+//   try {
+//     await usersService.remove(req.params.id);
+//     res.status(204).send('The user has been deleted');
+//   } catch (e) {
+//     next(e);
+//   }
+// });
 
 export default router;

@@ -1,121 +1,121 @@
-import User from '../resources/users/user.model';
+// import User from '../resources/users/user.model';
 import Board from '../resources/boards/board.model';
-import { IUserInfo } from './../resources/users/user';
+// import { IUserInfo } from './../resources/users/user';
 import { IBoardInfo } from './../resources/boards/board';
 import { ITaskInfo } from './../resources/tasks/task';
 
-const MyUsersDataBase: IUserInfo[] = [];
+// const MyUsersDataBase: IUserInfo[] = [];
 const MyBoardsDataBase: IBoardInfo[] = [];
 const MyTasksDataBase: ITaskInfo[] = [];
 
-MyUsersDataBase.push(new User(), new User(), new User(), new User());
+// MyUsersDataBase.push(new User(), new User(), new User(), new User());
 MyBoardsDataBase.push(new Board(), new Board());
 
-/**
- * The Interface describing information about a user
- * @typedef {Object} IUserInfo
- * @property {string} id - id of a user
- * @property {string} name - name of a user
- * @property {string} login - login of a user
- * @property {string} password - password of a user
- */
-
-/**
- * The Interface describing information about a board
- * @typedef {Object} IBoardInfo
- * @property {string} id - id of a board
- * @property {string} title - title of a board
- * @property {Array<IColumnInfo>} columns - columns of a board
- */
-
-/**
- * The Interface describing information about a column
- * @typedef {Object} IColumnInfo
- * @property {string} id - id of a column
- * @property {string} title - title of a column
- * @property {number} order - order of a column
- */
-
-/**
- * The Interface describing information about a task
- * @typedef {Object} ITaskInfo
- * @property {string} id - id of a task
- * @property {string} title - title of a task
- * @property {number} order - order of a task
- * @property {string} description - description of a task
- * @property {string | null} userId - id of a user who the task is assigned
- * @property {string} boardId - id of a board where the task is
- * @property {string} columnId - id of a column where the task is
- */
-
-//  /**
-//  * Queries all users from data base
-//  * @async
-//  * @return {Promise<Array<IUserInfo>>} - Promise array with objects with full information about a user
+// /**
+//  * The Interface describing information about a user
+//  * @typedef {Object} IUserInfo
+//  * @property {string} id - id of a user
+//  * @property {string} name - name of a user
+//  * @property {string} login - login of a user
+//  * @property {string} password - password of a user
 //  */
-export const getAllUsers = async (): Promise<IUserInfo[]> =>
-  MyUsersDataBase.slice(0);
 
-/**
- * Queries one user from the data base by id
- * @async
- * @param {string} id - the id of a user
- * @return {Promise<(IUserInfo | undefined)>} - Promise object with full information about a user or promise undefined if there is no user with such an id
- */
-export const getUser = async (id: string): Promise<IUserInfo | undefined> =>
-  MyUsersDataBase.filter((el) => el.id === id)[0];
+// /**
+//  * The Interface describing information about a board
+//  * @typedef {Object} IBoardInfo
+//  * @property {string} id - id of a board
+//  * @property {string} title - title of a board
+//  * @property {Array<IColumnInfo>} columns - columns of a board
+//  */
 
-/**
- * Records a new user into the data base
- * @async
- * @param {IUserInfo} user - the full information about a user
- * @return {Promise<IUserInfo>} - Promise object with full information about a user
- */
-export const createUser = async (user: IUserInfo): Promise<IUserInfo> => {
-  MyUsersDataBase.push(user);
-  return user;
-};
+// /**
+//  * The Interface describing information about a column
+//  * @typedef {Object} IColumnInfo
+//  * @property {string} id - id of a column
+//  * @property {string} title - title of a column
+//  * @property {number} order - order of a column
+//  */
 
-/**
- * Updates information about a user
- * @param {string} id - id of a user
- * @param {object} data - an object with a key/ some keys of IUserInfo (the full information about a user)
- * @return {IUserInfo | null} - an object with full information about a user or null if there is no user with such an id
- */
-export const updateUser = (
-  id: string,
-  data: Partial<IUserInfo>
-): IUserInfo | null => {
-  const item = MyUsersDataBase.find((user) => user.id === id);
+// /**
+//  * The Interface describing information about a task
+//  * @typedef {Object} ITaskInfo
+//  * @property {string} id - id of a task
+//  * @property {string} title - title of a task
+//  * @property {number} order - order of a task
+//  * @property {string} description - description of a task
+//  * @property {string | null} userId - id of a user who the task is assigned
+//  * @property {string} boardId - id of a board where the task is
+//  * @property {string} columnId - id of a column where the task is
+//  */
 
-  if (!item) {
-    return null;
-  }
+// //  /**
+// //  * Queries all users from data base
+// //  * @async
+// //  * @return {Promise<Array<IUserInfo>>} - Promise array with objects with full information about a user
+// //  */
+// export const getAllUsers = async (): Promise<IUserInfo[]> =>
+//   MyUsersDataBase.slice(0);
 
-  item.login = data.login ? data.login : item.login;
-  item.name = data.name ? data.name : item.name;
-  item.password = data.password ? data.password : item.password;
-  return item;
-};
+// /**
+//  * Queries one user from the data base by id
+//  * @async
+//  * @param {string} id - the id of a user
+//  * @return {Promise<(IUserInfo | undefined)>} - Promise object with full information about a user or promise undefined if there is no user with such an id
+//  */
+// export const getUser = async (id: string): Promise<IUserInfo | undefined> =>
+//   MyUsersDataBase.filter((el) => el.id === id)[0];
 
-/**
- * Removes a user from the data base. User's boards and tasks became unassigned
- * @async
- * @param {string} id - id of a user
- * @return {Promise<Array<IUserInfo>>} - Promise array with an object with full information about the deleted user
- */
-export const removeUser = async (id: string): Promise<IUserInfo[]> => {
-  MyTasksDataBase.forEach((item) => {
-    if (item.userId === id) {
-      const tmp = item;
-      tmp.userId = null;
-    }
-  });
-  return MyUsersDataBase.splice(
-    MyUsersDataBase.findIndex((user) => user.id === id),
-    1
-  );
-};
+// /**
+//  * Records a new user into the data base
+//  * @async
+//  * @param {IUserInfo} user - the full information about a user
+//  * @return {Promise<IUserInfo>} - Promise object with full information about a user
+//  */
+// export const createUser = async (user: IUserInfo): Promise<IUserInfo> => {
+//   MyUsersDataBase.push(user);
+//   return user;
+// };
+
+// /**
+//  * Updates information about a user
+//  * @param {string} id - id of a user
+//  * @param {object} data - an object with a key/ some keys of IUserInfo (the full information about a user)
+//  * @return {IUserInfo | null} - an object with full information about a user or null if there is no user with such an id
+//  */
+// export const updateUser = (
+//   id: string,
+//   data: Partial<IUserInfo>
+// ): IUserInfo | null => {
+//   const item = MyUsersDataBase.find((user) => user.id === id);
+
+//   if (!item) {
+//     return null;
+//   }
+
+//   item.login = data.login ? data.login : item.login;
+//   item.name = data.name ? data.name : item.name;
+//   item.password = data.password ? data.password : item.password;
+//   return item;
+// };
+
+// /**
+//  * Removes a user from the data base. User's boards and tasks became unassigned
+//  * @async
+//  * @param {string} id - id of a user
+//  * @return {Promise<Array<IUserInfo>>} - Promise array with an object with full information about the deleted user
+//  */
+// export const removeUser = async (id: string): Promise<IUserInfo[]> => {
+//   MyTasksDataBase.forEach((item) => {
+//     if (item.userId === id) {
+//       const tmp = item;
+//       tmp.userId = null;
+//     }
+//   });
+//   return MyUsersDataBase.splice(
+//     MyUsersDataBase.findIndex((user) => user.id === id),
+//     1
+//   );
+// };
 
 /**
  * Queries all boards from the data base

@@ -10,7 +10,7 @@ export const typeormConfig: ConnectionOptions = {
   database: config.POSTGRES_DB,
   synchronize: true,
   logging: false,
-  entities: ['src/entity/**/*.ts'],
+  entities: ['src/entities/**/*.ts'],
   migrations: ['src/migration/**/*.ts'],
   subscribers: ['src/subscriber/**/*.ts'],
   cli: {
