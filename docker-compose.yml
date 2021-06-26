@@ -1,20 +1,6 @@
 version: "3"
 
 services:
-    express:
-        build: .
-        image: ayakicoder/express-rest-service
-        ports:
-            - ${PORT}:${PORT}
-        volumes: 
-            - ./logs:/usr/myapp/logs
-            - ./src:/usr/myapp/src
-        depends_on: 
-            - database
-        restart: always
-        environment: 
-            - PORT=${PORT}
-
     database:
         build: ./database/
         image: ayakicoder/postgres
@@ -22,7 +8,6 @@ services:
             - ${POSTGRES_PORT}:${POSTGRES_PORT}
         volumes: 
             - ./database/logs:/logs:z
-            - ./database/data:/var/lib/posgresql/data
         environment:
             - POSTGRES_PORT=${POSTGRES_PORT}
             - POSTGRES_DB=${POSTGRES_DB}

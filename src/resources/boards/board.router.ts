@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import Board from './board.model';
+import Board from '../../entities/board';
 import * as boardsService from './board.service';
 
 const router = Router();
@@ -23,12 +23,7 @@ router.route('/:id').get(async (req, res, next) => {
 
 router.route('/').post(async (req, res, next) => {
   try {
-    const board = await boardsService.create(
-      new Board({
-        title: req.body.title,
-        columns: req.body.columns,
-      })
-    );
+    const board = await boardsService.create(req.body);
     res.status(201).json(Board.toResponse(board));
   } catch (e) {
     next(e);

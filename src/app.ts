@@ -29,8 +29,6 @@ app.use('/', (req, res, next) => {
   next();
 });
 
-console.log('task6');
-
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 boardRouter.use('/:boardID/tasks', taskRouter);
