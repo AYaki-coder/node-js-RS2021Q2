@@ -11,6 +11,8 @@ import {
   handleUncaughtException,
   handleUnhandledRejection,
 } from './custom-error/error-handler';
+import { auth } from './resources/authentication/authentication.router';
+import { checkToken } from './common/check-token';
 
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
@@ -20,6 +22,10 @@ app.use(express.json());
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.use(logAllRequests);
+
+app.use('/login', auth);
+
+app.use(checkToken);
 
 app.use('/', (req, res, next) => {
   if (req.originalUrl === '/') {
