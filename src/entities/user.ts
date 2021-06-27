@@ -11,7 +11,7 @@ export default class User {
   @Column('varchar', { length: 20 })
   login!: string;
 
-  @Column('varchar', { length: 16 })
+  @Column('varchar', { length: 301 })
   password!: string;
 
   static toResponse(user: User): Omit<User, 'password'> {
