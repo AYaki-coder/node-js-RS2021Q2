@@ -16,9 +16,12 @@ export const get = async (id: string): Promise<User> => {
 };
 
 export const create = async (user: Omit<User, 'id'>): Promise<User> => {
-  const newUser = await getRepository(User).create(user);
-  await getRepository(User).save(newUser);
-  return newUser;
+  const repo = getRepository(User);
+  const newUser = await repo.create(user);
+  console.log('newUser create', newUser);
+  const saveuser = await repo.save(newUser);
+  console.log('saveuser', saveuser);
+  return saveuser;
 };
 
 export const update = async (
@@ -43,4 +46,8 @@ export const remove = async (id: string): Promise<User> => {
   await getRepository(User).delete(id);
 
   return user;
+};
+
+export const getByLogin = async (login: string): Promise<User | undefined> => {
+  return await getRepository(User).findOne({ where: { login } });
 };
