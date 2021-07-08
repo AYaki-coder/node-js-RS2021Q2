@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Task } from '../../tasks/entities/task.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { ReturnUserDto } from '../dto/return-user.dto';
 
 @Entity({ name: 'user' })
 export class User {
@@ -14,7 +16,10 @@ export class User {
   @Column('varchar', { length: 301 })
   password!: string;
 
-  static toResponse(user: User): Omit<User, 'password'> {
+  @OneToMany(() => Task, (task) => task.userId)
+  tasks: Task[];
+
+  static toResponse(user: User): ReturnUserDto {
     const { id, name, login } = user;
     return { id, name, login };
   }

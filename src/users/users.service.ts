@@ -1,26 +1,58 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
+import { Repository } from 'typeorm';
+import { ReturnUserDto } from './dto/return-user.dto';
 
 @Injectable()
 export class UsersService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  constructor(
+    @InjectRepository(User) private readonly userRepo: Repository<User>,
+  ) {}
+  async create(createUserDto: CreateUserDto): Promise<ReturnUserDto> {
+    const user = await this.userRepo.create(createUserDto);
+    return User.toResponse(await this.userRepo.save(user));
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll(): Promise<ReturnUserDto[]> {
+    const users = await this.userRepo.find();
+    return users.map((user) => User.toResponse(user));
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string): Promise<ReturnUserDto> {
+    const user = await this.userRepo.findOne(id);
+
+    if (!user) {
+      throw new HttpException(`The User with id ${id} was not found.`, 404);
+    }
+    return User.toResponse(user);
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(
+    id: string,
+    updateUserDto: UpdateUserDto,
+  ): Promise<ReturnUserDto> {
+    const user = await this.userRepo.findOne(id);
+    if (!user) {
+      throw new HttpException(`The User with id ${id} was not found.`, 404);
+    }
+    const updatedUser = await this.userRepo.save({
+      ...user,
+      ...updateUserDto,
+    });
+    return User.toResponse(updatedUser);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: string): Promise<User> {
+    const user = await this.userRepo.findOne(id);
+
+    if (!user) {
+      throw new HttpException(`The User with id ${id} was not found.`, 404);
+    }
+    await this.userRepo.delete(id);
+
+    return user;
   }
 }
