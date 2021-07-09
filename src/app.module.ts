@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
@@ -9,6 +8,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { Task } from './tasks/entities/task.entity';
 import { BoardsModule } from './boards/boards.module';
 import { Board } from './boards/entities/board.entity';
+import { LoginModule } from './login/login.module';
 
 @Module({
   imports: [
@@ -23,12 +23,14 @@ import { Board } from './boards/entities/board.entity';
       database: process.env.POSTGRES_DB,
       entities: [User, Board, Task],
       synchronize: true,
+      dropSchema: true,
       autoLoadEntities: true,
     }),
     BoardsModule,
     TasksModule,
+    LoginModule,
   ],
-  controllers: [AppController],
   providers: [AppService],
+  exports: [AppService],
 })
 export class AppModule {}

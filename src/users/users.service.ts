@@ -5,6 +5,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { ReturnUserDto } from './dto/return-user.dto';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
@@ -12,7 +13,11 @@ export class UsersService {
     @InjectRepository(User) private readonly userRepo: Repository<User>,
   ) {}
   async create(createUserDto: CreateUserDto): Promise<ReturnUserDto> {
-    const user = await this.userRepo.create(createUserDto);
+    const hashPassword = await bcrypt.hash(createUserDto.password, 10);
+    const user = await this.userRepo.create({
+      ...createUserDto,
+      password: hashPassword,
+    });
     return User.toResponse(await this.userRepo.save(user));
   }
 
@@ -38,10 +43,21 @@ export class UsersService {
     if (!user) {
       throw new HttpException(`The User with id ${id} was not found.`, 404);
     }
-    const updatedUser = await this.userRepo.save({
-      ...user,
-      ...updateUserDto,
-    });
+    let updatedUser: User;
+    if (updateUserDto) {
+      const hashPassword = await bcrypt.hash(updateUserDto.password, 10);
+      updatedUser = await this.userRepo.save({
+        ...user,
+        ...updateUserDto,
+        password: hashPassword,
+      });
+    } else {
+      updatedUser = await this.userRepo.save({
+        ...user,
+        ...updateUserDto,
+      });
+    }
+
     return User.toResponse(updatedUser);
   }
 
