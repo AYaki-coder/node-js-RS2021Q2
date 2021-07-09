@@ -9,6 +9,8 @@ import { Task } from './tasks/entities/task.entity';
 import { BoardsModule } from './boards/boards.module';
 import { Board } from './boards/entities/board.entity';
 import { LoginModule } from './login/login.module';
+import { APP_FILTER } from '@nestjs/core';
+import { AllExceptionFilter } from './helper/error-logger';
 
 @Module({
   imports: [
@@ -30,7 +32,13 @@ import { LoginModule } from './login/login.module';
     TasksModule,
     LoginModule,
   ],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionFilter,
+    },
+  ],
   exports: [AppService],
 })
 export class AppModule {}
