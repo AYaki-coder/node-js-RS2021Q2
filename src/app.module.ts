@@ -10,7 +10,7 @@ import { BoardsModule } from './boards/boards.module';
 import { Board } from './boards/entities/board.entity';
 import { LoginModule } from './login/login.module';
 import { APP_FILTER } from '@nestjs/core';
-import { AllExceptionFilter } from './helper/error-logger';
+import { AllExceptionFilter } from './helper/all-exception-filter';
 
 @Module({
   imports: [

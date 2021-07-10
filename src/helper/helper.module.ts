@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AllExceptionFilter } from './error-logger';
+import { AllExceptionFilter } from './all-exception-filter';
 import { LoggerGuard } from './logger.guard';
 
 @Module({

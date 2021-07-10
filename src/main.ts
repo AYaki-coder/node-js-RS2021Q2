@@ -4,9 +4,23 @@ import { AppModule } from './app.module';
 import { User } from './users/entities/user.entity';
 import * as bcrypt from 'bcryptjs';
 import { LoggerGuard } from './helper/logger.guard';
+import { INestApplication } from '@nestjs/common';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const isFastify = process.env.USE_FASTIFY === 'true';
+  let app: INestApplication;
+  if (isFastify) {
+    app = await NestFactory.create<NestFastifyApplication>(
+      AppModule,
+      new FastifyAdapter(),
+    );
+  } else {
+    app = await NestFactory.create(AppModule);
+  }
   app.useGlobalGuards(new LoggerGuard());
   const userRepo = getRepository(User);
   const user = await userRepo.findOne({ login: 'admin' });

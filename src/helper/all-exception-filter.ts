@@ -9,6 +9,7 @@ import { logger } from './logger';
 @Catch()
 export class AllExceptionFilter implements ExceptionFilter {
   catch(exception, host: ArgumentsHost) {
+    const isFastify = process.env.USE_FASTIFY === 'true';
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
     const request = ctx.getRequest();
@@ -28,11 +29,19 @@ export class AllExceptionFilter implements ExceptionFilter {
        query params: ${JSON.stringify(query)}
        body: ${JSON.stringify(body)}`,
     });
-    console.log('exeption-filter');
-    response.status(status).json({
-      statusCode: status,
-      timestamp: new Date().toISOString(),
-      path: request.url,
-    });
+
+    if (isFastify) {
+      response.status(status).send({
+        statusCode: status,
+        timestamp: new Date().toISOString(),
+        path: request.url,
+      });
+    } else {
+      response.status(status).json({
+        statusCode: status,
+        timestamp: new Date().toISOString(),
+        path: request.url,
+      });
+    }
   }
 }
