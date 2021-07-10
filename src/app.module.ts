@@ -11,6 +11,7 @@ import { Board } from './boards/entities/board.entity';
 import { LoginModule } from './login/login.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionFilter } from './helper/all-exception-filter';
+import { dbMigration1624438681352 } from './migration/1624438681352-dbMigration';
 
 @Module({
   imports: [
@@ -25,8 +26,14 @@ import { AllExceptionFilter } from './helper/all-exception-filter';
       database: process.env.POSTGRES_DB,
       entities: [User, Board, Task],
       synchronize: true,
+      migrationsRun: false,
+      logging: false,
       dropSchema: true,
       autoLoadEntities: true,
+      migrations: [dbMigration1624438681352],
+      cli: {
+        migrationsDir: 'src/migration',
+      },
     }),
     BoardsModule,
     TasksModule,
