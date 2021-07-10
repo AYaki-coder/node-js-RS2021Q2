@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { User } from './users/entities/user.entity';
@@ -40,12 +39,10 @@ import { dbMigration1624438681352 } from './migration/1624438681352-dbMigration'
     LoginModule,
   ],
   providers: [
-    AppService,
     {
       provide: APP_FILTER,
       useClass: AllExceptionFilter,
     },
   ],
-  exports: [AppService],
 })
 export class AppModule {}
