@@ -25,18 +25,29 @@ npm install
 
 ```bash
 # development
-$ npm run start
+npm run start
 
 # watch mode
-$ npm run start:dev
+npm run start:dev
 
 # production mode
-$ npm run start:prod
+npm run start:prod
 ```
+## Running the app in Docker
+Unfortunately I still can't run tests when database and app running in Docker. U can run only database in docker.
 
+## Starting database
+```
+docker-compose up -d
+```
+## Running application
+
+```
+npm run start:dev
+```
 ## Test
 
 ```bash
 # e2e tests
-$ npm run test:auth
+npm run test:auth
 ```
