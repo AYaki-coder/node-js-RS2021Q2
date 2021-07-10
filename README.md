@@ -51,3 +51,35 @@ npm run start:dev
 # e2e tests
 npm run test:auth
 ```
+# Performance tests
+fastify: 
+
+All virtual users finished
+Summary report @ 16:49:13(+0300) 2021-07-10
+
+express:
+
+All virtual users finished
+Summary report @ 16:50:18(+0300) 2021-07-10
+
+
+ ## Compare performance table
+|              |    Express                              |            Fastify                                                              |
+|--------------|----------------------------------|--------------------------------------------------------------------------|
+| Scenarios launched:    | 160        |  160                                                 |
+| Scenarios completed:     |160            |  160                                                     |
+| Requests completed:    | 480 |  480 |
+| Mean response/sec:     | 21.32                          | 21.33                                                                 |
+| Response time (msec): |                     |                                                                |
+|  min: |  1 | 1 |
+|  max: | 1282 | 561 |
+|  median: | 86 | 3 |
+|  p95: | 517 | 221 |
+|  p99: | 794.7 | 427|
+|Scenario counts: | | | 
+| create delete get: |  160 (100%) |  160 (100%)| 
+| Codes: | | |
+| 200: |160| 160|
+|   201: |160| 160|
+|   404: |160| 160|
+
