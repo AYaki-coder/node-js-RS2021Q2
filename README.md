@@ -1,4 +1,6 @@
-# RS School REST service
+# Description
+
+This is a backend project (trello clone) on [Nest](https://github.com/nestjs/nest) framework for [RS School](https://rs.school/).
 
 ## Prerequisites
 
@@ -9,7 +11,7 @@
 ## Downloading
 
 ```
-git clone {repository URL}
+git clone https://github.com/AYaki-coder/node-js-RS2021Q2.git
 ```
 
 ## Installing NPM modules
@@ -17,6 +19,23 @@ git clone {repository URL}
 ```
 npm install
 ```
+
+## Running the app
+ **to connect to your Postgres database use your credentials in .env**
+
+```bash
+# development
+npm run start
+
+# watch mode
+npm run start:dev
+
+# production mode
+npm run start:prod
+```
+## Running the app in Docker
+Unfortunately I still can't run tests when database and app running in Docker. U can run only database in docker.
+
 ## Starting database
 ```
 docker-compose up -d
@@ -24,67 +43,43 @@ docker-compose up -d
 ## Running application
 
 ```
-npm start
+npm run start:dev
 ```
+## Test
 
-After starting the app on port (4000 as default) you can open
-in your browser OpenAPI documentation by typing http://localhost:4000/doc/.
-For more information about OpenAPI/Swagger please visit https://swagger.io/.
-
-## Docker commands
-  
-   - to start database -- run next command in terminal:
-
-```
-docker-compose up -d
-```
-
- - to finish -- run next command in terminal:
-
-```
-docker-compose down
-```
-
-## Testing
-
-After application running open new terminal and enter:
-
-To run all tests without authorization
-
-```
-npm test
-```
-
-To run only one of all test suites (users, boards or tasks)
-
-```
-npm test <suite name>
-```
-
-To run all test with authorization
-
-```
+```bash
+# e2e tests
 npm run test:auth
 ```
+# Performance tests
+fastify: 
 
-To run only specific test suite with authorization (users, boards or tasks)
+All virtual users finished
+Summary report @ 16:49:13(+0300) 2021-07-10
 
-```
-npm run test:auth <suite name>
-```
+express:
 
-## Development
+All virtual users finished
+Summary report @ 16:50:18(+0300) 2021-07-10
 
-If you're using VSCode, you can get a better developer experience from integration with [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) extensions.
 
-### Auto-fix and format
+ ## Compare performance table
+|              |    Express                              |            Fastify                                                              |
+|--------------|----------------------------------|--------------------------------------------------------------------------|
+| Scenarios launched:    | 160        |  160                                                 |
+| Scenarios completed:     |160            |  160                                                     |
+| Requests completed:    | 480 |  480 |
+| Mean response/sec:     | 21.32                          | 21.33                                                                 |
+| Response time (msec): |                     |                                                                |
+|  min: |  1 | 1 |
+|  max: | 1282 | 561 |
+|  median: | 86 | 3 |
+|  p95: | 517 | 221 |
+|  p99: | 794.7 | 427|
+|Scenario counts: | | | 
+| create delete get: |  160 (100%) |  160 (100%)| 
+| Codes: | | |
+| 200: |160| 160|
+|   201: |160| 160|
+|   404: |160| 160|
 
-```
-npm run lint
-```
-
-### Debugging in VSCode
-
-Press <kbd>F5</kbd> to debug.
-
-For more information, visit: https://code.visualstudio.com/docs/editor/debugging
